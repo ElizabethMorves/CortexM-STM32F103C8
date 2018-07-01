@@ -1,8 +1,6 @@
-<h1>It's test STM32</h1>
+<h1>STM32f103C8T6</h1>
+<h2>It's test STM32</h2>
 Most of the code does not work as expected.
 
-<h2>STM32f103C8T6</h2>
-
-TrueStudio 9.0.1
-
-<p><i>Wery, wery easy. Thank you STMicroelectronics for a great time.</i><p/>
+<p><i>IDE - TrueStudio 9.0.1</i><br />
+<i>Wery, wery easy. Thank you STMicroelectronics for a great time.</i><p/>
