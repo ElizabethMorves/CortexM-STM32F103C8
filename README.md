@@ -1,4 +1,4 @@
-<h1>STM32f103C8T6</h1>
+<h1>STM32f103c8t6</h1>
 <h2>It's test STM32</h2>
 Most of the code does not work as expected.
 
