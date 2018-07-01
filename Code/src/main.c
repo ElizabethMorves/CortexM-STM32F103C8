@@ -48,19 +48,19 @@ void vTaskLCD(void *arg){
 	unsigned char i=0;
 	while(1){
 		vTaskDelay(1000);
-		LcdWrite(0x01, RSLcdCommand);
-		LcdWrite(0x02, RSLcdCommand);
+		//LcdWrite(0x01, RSLcdCommand);	//clear display
+		LcdWrite(0x02, RSLcdCommand);	//set position home
 vTaskDelay(100);
-		LcdWrite(*" ", RSLcdData);
-		LcdWrite(*" ", RSLcdData);
-		LcdWrite(*" ", RSLcdData);
-		LcdWrite(*" ", RSLcdData);
-		LcdWrite(*" ", RSLcdData);
-		LcdWrite(*" ", RSLcdData);
-		LcdWrite(*" ", RSLcdData);
-		LcdWrite(*" ", RSLcdData);
-		LcdWrite(*" ", RSLcdData);
-		LcdWrite(*" ", RSLcdData);
+		LcdWrite(*"1", RSLcdData);
+		LcdWrite(*"2", RSLcdData);
+		LcdWrite(*"3", RSLcdData);
+		LcdWrite(*"4", RSLcdData);
+		LcdWrite(*"5", RSLcdData);
+		LcdWrite(*"6", RSLcdData);
+		LcdWrite(*"7", RSLcdData);
+		LcdWrite(*"8", RSLcdData);
+		LcdWrite(*"9", RSLcdData);
+		LcdWrite(*"0", RSLcdData);
 		LcdWrite(*" ", RSLcdData);
 		LcdWrite(*" ", RSLcdData);
 		LcdWrite(*" ", RSLcdData);
