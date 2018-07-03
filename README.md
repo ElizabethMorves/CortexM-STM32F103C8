@@ -3,7 +3,7 @@
 Most of the code does not work as expected.<br />
 
 <p>
-<b>LCD hd44780</b> <ahref="https://raw.githubusercontent.com/ElizabethMorves/CortexM-STM32F103C8/CortexM/images/hd44780_one_string.png">max fast.</a> One string 20 letters 15.91 ms
+<b>LCD hd44780</b> <a href="https://raw.githubusercontent.com/ElizabethMorves/CortexM-STM32F103C8/CortexM/images/hd44780_one_string.png">max fast.</a> One string 20 letters 15.91 ms
 </p>
 
 <p><i>IDE - TrueStudio 9.0.1</i><br />
