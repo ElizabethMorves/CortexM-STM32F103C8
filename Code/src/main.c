@@ -45,7 +45,7 @@ void vTaskLCD(void *arg){
     unsigned char i=0;
     while(1){
         vTaskDelay(1000);
-        //LcdWrite(0x01, RSLcdCommand);    //clear display
+        //LcdWrite(0x01, RSLcdCommand);  //clear display
         LcdWrite(0x02, RSLcdCommand);    //set position home
 vTaskDelay(100);
         LcdWrite(*"1", RSLcdData);
@@ -67,7 +67,7 @@ vTaskDelay(100);
         LcdWrite(*" ", RSLcdData);
         LcdWrite(*" ", RSLcdData);
         LcdWrite(*" ", RSLcdData);
-        LcdWrite(i, RSLcdData);
+        LcdWrite(i, RSLcdData);         //print all symbols
         i++;
 
     }

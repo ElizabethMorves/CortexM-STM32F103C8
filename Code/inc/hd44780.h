@@ -11,6 +11,8 @@ typedef enum{
     RSLcdData
 }RSLcdMode;
 
+#define LCD_DELAY   1
+
 #define PORT        GPIOA
 
 #define CNF_RS      GPIO_CRL_CNF1
