@@ -3,4 +3,4 @@
 Most of the code does not work as expected.
 
 <p><i>IDE - TrueStudio 9.0.1</i><br />
-<i>Wery, wery easy. Thank you STMicroelectronics for a great time.</i><p/>
+<i>Very very easy. Thank you STMicroelectronics for a great time.</i><p/>
