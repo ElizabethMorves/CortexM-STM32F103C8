@@ -9,55 +9,55 @@ static void DelayMs(uint32_t nTime){
 
 
 void LcdGPIO(RWLcdMode mode){
-	GPIOA->CRL &= ~(GPIO_CRL_CNF1 | GPIO_CRL_CNF2  | GPIO_CRL_CNF3);	 							/* ~0x0000CCC0	*/
-	GPIOA->CRL |= GPIO_CRL_MODE1_0 | GPIO_CRL_MODE2_0 |	GPIO_CRL_MODE3_0;							/*	0x00001110	*/
+	PORT->CRL &= ~(CNF_RS | CNF_RW  | CNF_E);	 						/* ~0x0000CCC0	*/
+	PORT->CRL |= MODE_RS | MODE_RW |	MODE_E;							/*	0x00001110	*/
 
 	if (mode){
-		GPIOA->ODR |= GPIO_ODR_ODR2;
+		PORT->ODR |= ODR_RW;
 		/*	LCD READ (RW PIN 1 / mode 1)*/
-		GPIOA->CRL &= ~(GPIO_CRL_CNF4   | GPIO_CRL_CNF5	| GPIO_CRL_CNF6 | GPIO_CRL_CNF7);			/*	~0xCCCC0000	*/
-		GPIOA->CRL &= ~(GPIO_CRL_MODE4_0 | GPIO_CRL_MODE5_0 | GPIO_CRL_MODE6_0 | GPIO_CRL_MODE7_0);
+		PORT->CRL &= ~(CNF_DB4   | CNF_DB5	| CNF_DB6 | CNF_DB7);		/*	~0xCCCC0000	*/
+		PORT->CRL &= ~(MODE_DB4 | MODE_DB5 | MODE_DB6 | MODE_DB7);
 	}else{
-		GPIOA->ODR &= ~GPIO_ODR_ODR2;
+		PORT->ODR &= ~ODR_RW;
 		/*	LCD WRITE (RW PIN 0 / mode 0)*/
-		GPIOA->CRL &= ~(GPIO_CRL_CNF4   | GPIO_CRL_CNF5	| GPIO_CRL_CNF6 | GPIO_CRL_CNF7);			/*	~0xCCCC0000	*/
-		GPIOA->CRL |= GPIO_CRL_MODE4_0 | GPIO_CRL_MODE5_0 | GPIO_CRL_MODE6_0 | GPIO_CRL_MODE7_0;	/*	 0x11110000	*/
+		PORT->CRL &= ~(CNF_DB4   | CNF_DB5	| CNF_DB6 | CNF_DB7);		/*	~0xCCCC0000	*/
+		PORT->CRL |= MODE_DB4 | MODE_DB5 | MODE_DB6 | MODE_DB7;			/*	 0x11110000	*/
 	}
 }
 
 void LcdWriteBit(unsigned char command) {
-		(command & 0x01) ? ( GPIOA->ODR |= GPIO_ODR_ODR4 ) : ( GPIOA->ODR &= ~GPIO_ODR_ODR4 );
-		(command & 0x02) ? ( GPIOA->ODR |= GPIO_ODR_ODR5 ) : ( GPIOA->ODR &= ~GPIO_ODR_ODR5 );
-		(command & 0x04) ? ( GPIOA->ODR |= GPIO_ODR_ODR6 ) : ( GPIOA->ODR &= ~GPIO_ODR_ODR6 );
-		(command & 0x08) ? ( GPIOA->ODR |= GPIO_ODR_ODR7 ) : ( GPIOA->ODR &= ~GPIO_ODR_ODR7 );
-	DelayMs(1);
-	GPIOA->ODR |= GPIO_ODR_ODR3;
-	DelayMs(1);
-	GPIOA->ODR &= ~GPIO_ODR_ODR3;
-	DelayMs(1);
+		(command & 0x01) ? ( PORT->ODR |= ODR_DB4 ) : ( PORT->ODR &= ~ODR_DB4 );
+		(command & 0x02) ? ( PORT->ODR |= ODR_DB5 ) : ( PORT->ODR &= ~ODR_DB5 );
+		(command & 0x04) ? ( PORT->ODR |= ODR_DB6 ) : ( PORT->ODR &= ~ODR_DB6 );
+		(command & 0x08) ? ( PORT->ODR |= ODR_DB7 ) : ( PORT->ODR &= ~ODR_DB7 );
+	DelayMs(1); //NEED EDIT!!!
+	PORT->ODR |= ODR_E;
+	DelayMs(1); //NEED EDIT!!!
+	PORT->ODR &= ~ODR_E;
+	DelayMs(1); //NEED EDIT!!!
 }
 
 unsigned char LcdReadBit() {
 	unsigned char status = 0;
-	GPIOA->ODR |= GPIO_ODR_ODR3;
-		if (GPIOA->IDR & GPIO_IDR_IDR4) { status |= (1 << 0); }
-		if (GPIOA->IDR & GPIO_IDR_IDR5) { status |= (1 << 1); }
-		if (GPIOA->IDR & GPIO_IDR_IDR6) { status |= (1 << 2); }
-		if (GPIOA->IDR & GPIO_IDR_IDR7)	{ status |= (1 << 3); }
-	GPIOA->ODR &= ~GPIO_ODR_ODR3;
+	PORT->ODR |= ODR_E;
+		if (PORT->IDR & IDR_DB4) { status |= (1 << 0); }
+		if (PORT->IDR & IDR_DB5) { status |= (1 << 1); }
+		if (PORT->IDR & IDR_DB6) { status |= (1 << 2); }
+		if (PORT->IDR & IDR_DB7) { status |= (1 << 3); }
+	PORT->ODR &= ~ODR_E;
 	return status;
 }
 
 void LcdWrite(unsigned char bits, RSLcdMode rw) {
 	while (LcdReadBusy() & 0x80);
-	rw ? (GPIOA->ODR |= GPIO_ODR_ODR1) : (GPIOA->ODR &= ~GPIO_ODR_ODR1);
+	rw ? (PORT->ODR |= ODR_RS) : (PORT->ODR &= ~ODR_RS);
 	LcdWriteBit(bits >> 4);
 	LcdWriteBit(bits);
 }
 
 unsigned char LcdReadBusy() {
 	unsigned char status = 0;
-		GPIOA->ODR &= ~GPIO_ODR_ODR1;
+		PORT->ODR &= ~ODR_RS;
 		LcdGPIO(RWLcdRead);
 			status |= (LcdReadBit() << 4);
 			status |= LcdReadBit();
@@ -69,14 +69,14 @@ unsigned char LcdReadBusy() {
 void InitLCD(){
 	RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
 	LcdGPIO(RWLcdWrite);
-	//hd44780 very very slow init Hmmm...
-	DelayMs(4000000);
+	//hd44780 very slow init Hmmm...
+	DelayMs(6000000);
 	LcdWriteBit(0x03);
 	DelayMs(500000);
 	LcdWriteBit(0x03);
-	DelayMs(200000);
+	DelayMs(500000);
 	LcdWriteBit(0x03);
-	DelayMs(200000);
+	DelayMs(500000);
 	LcdWriteBit(0x02);
 
 	LcdWrite(0x02, RSLcdCommand); 	// 4bit Return Home
