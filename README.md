@@ -3,7 +3,7 @@
 Most of the code does not work as expected.<br />
 
 <p>
-<b>LCD hd44780</b>
+<b>LCD hd44780</b> max fast. One string 20 letters 15.91 ms
 </p>
 
 <p><i>IDE - TrueStudio 9.0.1</i><br />
