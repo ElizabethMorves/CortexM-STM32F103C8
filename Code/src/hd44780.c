@@ -27,6 +27,7 @@ void LcdWriteBit(unsigned char command) {
 		(command & 0x02) ? ( GPIOA->ODR |= GPIO_ODR_ODR5 ) : ( GPIOA->ODR &= ~GPIO_ODR_ODR5 );
 		(command & 0x04) ? ( GPIOA->ODR |= GPIO_ODR_ODR6 ) : ( GPIOA->ODR &= ~GPIO_ODR_ODR6 );
 		(command & 0x08) ? ( GPIOA->ODR |= GPIO_ODR_ODR7 ) : ( GPIOA->ODR &= ~GPIO_ODR_ODR7 );
+
 	DelayMs(1);
 	GPIOA->ODR |= GPIO_ODR_ODR3;
 	DelayMs(1);
@@ -46,10 +47,11 @@ unsigned char LcdReadBit() {
 }
 
 void LcdWrite(unsigned char bits, RSLcdMode rw) {
+	while (LcdReadBusy() & 0x80);
+
 	rw ? (GPIOA->ODR |= GPIO_ODR_ODR1) : (GPIOA->ODR &= ~GPIO_ODR_ODR1);
 	LcdWriteBit(bits >> 4);
 	LcdWriteBit(bits);
-	while (LcdReadBusy() & 0x80);
 }
 
 unsigned char LcdReadBusy() {
@@ -66,14 +68,14 @@ unsigned char LcdReadBusy() {
 void InitLCD(){
 	RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
 	LcdGPIO(RWLcdWrite);
-
-	DelayMs(2000);
+	//fucked hd44780 very very slow init Hmmm...
+	DelayMs(4000000);
 	LcdWriteBit(0x03);
-	DelayMs(5000);
+	DelayMs(500000);
 	LcdWriteBit(0x03);
-	DelayMs(2000);
+	DelayMs(200000);
 	LcdWriteBit(0x03);
-	DelayMs(2000);
+	DelayMs(200000);
 	LcdWriteBit(0x02);
 
 /*
