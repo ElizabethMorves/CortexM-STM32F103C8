@@ -9,8 +9,8 @@ static void DelayMs(uint32_t nTime){
 
 
 void LcdGPIO(RWLcdMode mode){
-	PORT->CRL &= ~(CNF_RS | CNF_RW  | CNF_E);	 						/* ~0x0000CCC0	*/
-	PORT->CRL |= MODE_RS | MODE_RW |	MODE_E;							/*	0x00001110	*/
+	PORT->CRL &= ~(CNF_RS | CNF_RW | CNF_E);	 						/* ~0x0000CCC0	*/
+	PORT->CRL |= MODE_RS | MODE_RW | MODE_E;							/*	0x00001110	*/
 
 	if (mode){
 		PORT->ODR |= ODR_RW;
@@ -20,7 +20,7 @@ void LcdGPIO(RWLcdMode mode){
 	}else{
 		PORT->ODR &= ~ODR_RW;
 		/*	LCD WRITE (RW PIN 0 / mode 0)*/
-		PORT->CRL &= ~(CNF_DB4   | CNF_DB5	| CNF_DB6 | CNF_DB7);		/*	~0xCCCC0000	*/
+		PORT->CRL &= ~(CNF_DB4 | CNF_DB5 | CNF_DB6 | CNF_DB7);		/*	~0xCCCC0000	*/
 		PORT->CRL |= MODE_DB4 | MODE_DB5 | MODE_DB6 | MODE_DB7;			/*	 0x11110000	*/
 	}
 }
