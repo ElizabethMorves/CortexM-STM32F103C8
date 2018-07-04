@@ -1,4 +1,5 @@
 #include <hd44780.h>
+#include <stdbool.h>
 
 
 static void DelayMs(uint32_t nTime){
@@ -49,7 +50,9 @@ unsigned char LcdReadBit() {
 }
 
 void LcdWrite(unsigned char bits, RSLcdMode rw) {
-    while (LcdReadBusy() & 0x80);
+    if(READ_BUSY){
+        while (LcdReadBusy() & 0x80);
+    }
     rw ? (PORT->ODR |= ODR_RS) : (PORT->ODR &= ~ODR_RS);
     LcdWriteBit(bits >> 4);
     LcdWriteBit(bits);
