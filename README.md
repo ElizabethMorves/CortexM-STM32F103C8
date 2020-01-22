@@ -7,6 +7,4 @@ Most of the code does not work as expected.<br />
 <b>LCD PT6314</b> <a href="https://raw.githubusercontent.com/ElizabethMorves/CortexM-STM32F103C8/CortexM/images/PT6314_one_string.png">max fast.</a> One string 20 letters 15.73 ms
 </p>
 
-<p><i>IDE - TrueStudio 9.0.1</i><br />
-<i>Very very easy. <br />
-Thank you STMicroelectronics for a great time.</i><p/>
+<p><i>IDE - TrueStudio 9.0.1</i><br /><p/>
